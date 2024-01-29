@@ -1,8 +1,18 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
+import type { Metadata } from "next";
+import { headers } from "next/headers";
+import { Inter as FontSans } from "next/font/google";
+import { cookieToInitialState } from "wagmi";
 
-const inter = Inter({ subsets: ["latin"] });
+import { config } from "@/config/web3modal";
+import Web3ModalProvider from "@/context/web3modal";
+import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/context/theme";
+
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,9 +24,24 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialState = cookieToInitialState(config, headers().get("cookie"));
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+        >
+          <Web3ModalProvider initialState={initialState}>
+            {children}
+          </Web3ModalProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
