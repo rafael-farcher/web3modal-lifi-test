@@ -5,6 +5,7 @@ export default function Home() {
   return (
     <div>
       <w3m-button />
+      <w3m-network-button />
       <Tabs defaultValue="nothing" className="w-[400px]">
         <TabsList>
           <TabsTrigger value="nothing">Nothing</TabsTrigger>
