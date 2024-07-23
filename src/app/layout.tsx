@@ -8,6 +8,7 @@ import { config } from "@/config/web3modal";
 import Web3ModalProvider from "@/context/web3modal";
 import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/context/theme";
+import { SolanaWalletProvider } from "@/context/SolanaWalletProvider";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -33,12 +34,9 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-        >
+        <ThemeProvider attribute="class" defaultTheme="dark">
           <Web3ModalProvider initialState={initialState}>
-            {children}
+            <SolanaWalletProvider>{children}</SolanaWalletProvider>
           </Web3ModalProvider>
         </ThemeProvider>
       </body>
